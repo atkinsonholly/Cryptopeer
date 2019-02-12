@@ -9,6 +9,7 @@ class Coin < ApplicationRecord
   end
 
   # The below section contains methods that request price data from Coinmarketcap API.
+  # Price information for each coin is the mean of available data.
   # Price information is provided as a guide only; any information shown on the Cryptopeer website should not be construed as advice.
   # The information is not, and should not be read as, a recommendation to buy or sell any cryptocurrency.
   # You are solely responsible for your own investment research, decisions and results.

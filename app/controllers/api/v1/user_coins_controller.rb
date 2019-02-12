@@ -1,4 +1,4 @@
-class UserCoinsController < ApplicationController
+class Api::V1::UserCoinsController < ApplicationController
 
   def index
     @user_coins = UserCoin.all
