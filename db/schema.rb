@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_02_11_161929) do
+ActiveRecord::Schema.define(version: 2019_02_12_150803) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -32,6 +32,8 @@ ActiveRecord::Schema.define(version: 2019_02_11_161929) do
     t.string "user_two_currency_symbol"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.float "user_one_price"
+    t.float "user_two_price"
   end
 
   create_table "user_coins", force: :cascade do |t|

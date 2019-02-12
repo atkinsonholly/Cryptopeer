@@ -23,8 +23,8 @@ ian = User.create!(username: "1AN", email: "ian@gmail.com", password: "123", fir
 dan = User.create!(username: "DanTheMan", email: "Kaczmarczyk@gmail.com", password: "123", first_name: "Holly", last_name: "Atkinson", profile_pic_url: "")
 vasile = User.create!(username: "Vasyl", email: "vasile@gmail.com", password: "123", first_name: "Vasile", last_name: "Cojusco", profile_pic_url: "")
 
-t1 = Transaction.create!(user_one_id: jack.id, user_two_id: holly.id, user_one_amount: 0.5, user_two_amount: 2, user_one_currency_symbol: "BTC", user_two_currency_symbol: "ETH")
-t2 = Transaction.create!(user_one_id: holly.id, user_two_id: jack.id, user_one_amount: 2, user_two_amount: 5, user_one_currency_symbol: "ETH", user_two_currency_symbol: "LTC")
+t1 = Transaction.create!(user_one_id: jack.id, user_two_id: holly.id, user_one_amount: 0.5, user_two_amount: 2, user_one_currency_symbol: "BTC", user_two_currency_symbol: "ETH", user_one_price: 2000, user_two_price: 300)
+t2 = Transaction.create!(user_one_id: holly.id, user_two_id: jack.id, user_one_amount: 2, user_two_amount: 5, user_one_currency_symbol: "ETH", user_two_currency_symbol: "LTC", user_one_price: 300, user_two_price: 40)
 
 u1 = UserCoin.create!(user: jack, coin: coin1, quantity: 5, selling: false)
 u2 = UserCoin.create!(user: jack, coin: coin2, quantity: 10, selling: true)
