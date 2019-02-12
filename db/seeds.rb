@@ -8,10 +8,19 @@
 coin1 = Coin.create(name: "Bitcoin", symbol: "BTC", price: 10000)
 coin2 = Coin.create(name: "Ethereum", symbol: "ETH", price: 150)
 coin3 = Coin.create(name: "Litecoin", symbol: "LTC", price: 50)
+
 jack = User.create(username: "jack123", email: "jack@gmail.com", password_digest: "123", first_name: "Jack", last_name: "Ling", profile_pic_url: "")
 holly = User.create(username: "holly123", email: "holly@gmail.com", password_digest: "123", first_name: "Holly", last_name: "Atkinson", profile_pic_url: "")
+guy = User.create(username: "thatGuy", email: "imthatguyguy@gmail.com", password_digest: "123", first_name: "Guy", last_name: "Bennett-Jones", profile_pic_url: "")
+nathan = User.create(username: "Toast", email: "nathan09@gmail.com", password_digest: "123", first_name: "Nathan", last_name: "Bell", profile_pic_url: "")
+janine = User.create(username: "Ja9", email: "janine@gmail.com", password_digest: "123", first_name: "Janine", last_name: "Luk", profile_pic_url: "")
+ian = User.create(username: "1AN", email: "ian@gmail.com", password_digest: "123", first_name: "Ian", last_name: "Harrison", profile_pic_url: "")
+dan = User.create(username: "DanTheMan", email: "Kaczmarczyk@gmail.com", password_digest: "123", first_name: "Holly", last_name: "Atkinson", profile_pic_url: "")
+vasile = User.create(username: "Vasyl", email: "vasile@gmail.com", password_digest: "123", first_name: "Vasile", last_name: "Cojusco", profile_pic_url: "")
+
 t1 = Transaction.create(user_one_id: 1, user_two_id: 2, user_one_amount: 0.5, user_two_amount: 2, user_one_currency_symbol: "BTC", user_two_currency_symbol: "ETH")
 t2 = Transaction.create(user_one_id: 2, user_two_id: 1, user_one_amount: 2, user_two_amount: 5, user_one_currency_symbol: "ETH", user_two_currency_symbol: "LTC")
+
 u1 = UserCoin.create(user_id: 1, coin_id: 1, quantity: 5, selling: false)
 u2 = UserCoin.create(user_id: 1, coin_id: 2, quantity: 10, selling: true)
 u3 = UserCoin.create(user_id: 1, coin_id: 3, quantity: 15, selling: false)

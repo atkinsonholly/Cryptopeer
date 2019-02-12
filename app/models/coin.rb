@@ -8,169 +8,53 @@ class Coin < ApplicationRecord
     self.create(name: name, symbol: symbol, price: price) unless self.find_by(symbol: symbol)
   end
 
-  def self.get_price_data_from_API(symbol_selling, symbol_buying)
-    response_string = RestClient.get("https://sandbox-api.coinmarketcap.com/v1/cryptocurrency/market-pairs/latest?CMC_PRO_API_KEY=#{API_key}&symbol=#{symbol_selling}&convert=GBP")
+  # The below section contains methods that request price data from Coinmarketcap API.
+  # Price information is provided as a guide only; any information shown on the Cryptopeer website should not be construed as advice.
+  # The information is not, and should not be read as, a recommendation to buy or sell any cryptocurrency.
+  # You are solely responsible for your own investment research, decisions and results.
+
+  def self.get_price_data_from_API(symbol_selling, symbol_buying, currency)
+    # Development API: sandbox-api.coinmarketcap.com
+    response_string = RestClient.get("https://sandbox-api.coinmarketcap.com/v1/cryptocurrency/market-pairs/latest?CMC_PRO_API_KEY=#{API_key}&symbol=#{symbol_selling}&convert=#{currency}")
     data = JSON.parse(response_string)
     data = data["data"]["market_pairs"]
     pairs = data.select{|item| item["market_pair"] == "#{symbol_selling}/#{symbol_buying}"}
     price_array = []
     pairs.each do |pair|
-      if pair["quote"]["GBP"]["price"] != -1
-        price_array << pair["quote"]["GBP"]["price"]
+      if pair["quote"][currency]["price"] != -1
+        price_array << pair["quote"][currency]["price"]
       end
     end
     price_array
   end
 
-  def self.populate_coins_GBP
-    coins_GBP = []
-
-    price_BTC = get_price_data_from_API("BTC", "GBP")
-    if price_BTC.length > 0
-      sum = price_BTC.inject :+
-      average_BTC = sum / price_BTC.length
+  def self.average_array(arr)
+    if arr.length > 0
+      sum = arr.inject :+
+      average_price = sum / arr.length
     end
-    coins_GBP << average_BTC
-
-    price_ETH = get_price_data_from_API("ETH", "GBP")
-    if price_ETH.length > 0
-      sum = price_ETH.inject :+
-      average_ETH = sum / price_ETH.length
-    end
-    coins_GBP << average_ETH
-
-    price_LTC = get_price_data_from_API("LTC", "GBP")
-    if price_LTC.length > 0
-      sum = price_LTC.inject :+
-      average_LTC = sum / price_LTC.length
-    end
-    coins_GBP << average_LTC
-
-    price_XRP = get_price_data_from_API("XRP", "GBP")
-    if price_XRP.length > 0
-      sum = price_XRP.inject :+
-      average_XRP = sum / price_XRP.length
-    end
-    coins_GBP << average_XRP
-
-    price_EOS = get_price_data_from_API("EOS", "GBP")
-    if price_EOS.length > 0
-      sum = price_EOS.inject :+
-      average_EOS = sum / price_EOS.length
-    end
-    coins_GBP << average_EOS
-
-    coins_GBP
+    average_price
   end
 
-  def self.populate_coins_USD
-    coins_USD = []
-
-    price_BTC = get_price_data_from_API("BTC", "USD")
-    if price_BTC.length > 0
-      sum = price_BTC.inject :+
-      average_BTC = sum / price_BTC.length
+  def self.populate_coins(currency) # use currency symbol eg "USD"
+    Coin.destroy_all
+    coins_arr = []
+    coin_symbols = ["BTC", "ETH", "LTC", "XRP", "EOS"]
+    # Get API data for each coin_symbol in given currency
+    coin_symbols.each do |symbol|
+      price = self.get_price_data_from_API(symbol, currency, currency)
+      coins_arr << self.average_array(price)
     end
-    coins_USD << average_BTC
-
-    price_ETH = get_price_data_from_API("ETH", "USD")
-    if price_ETH.length > 0
-      sum = price_ETH.inject :+
-      average_ETH = sum / price_ETH.length
-    end
-    coins_USD << average_ETH
-
-    price_LTC = get_price_data_from_API("LTC", "USD")
-    if price_LTC.length > 0
-      sum = price_LTC.inject :+
-      average_LTC = sum / price_LTC.length
-    end
-    coins_USD << average_LTC
-
-    price_XRP = get_price_data_from_API("XRP", "USD")
-    if price_XRP.length > 0
-      sum = price_XRP.inject :+
-      average_XRP = sum / price_XRP.length
-    end
-    coins_USD << average_XRP
-
-    price_EOS = get_price_data_from_API("EOS", "USD")
-    if price_EOS.length > 0
-      sum = price_EOS.inject :+
-      average_EOS = sum / price_EOS.length
-    end
-    coins_USD << average_EOS
-
-    coins_USD
+    # Create coin objects for each coin_symbol
+    self.add_coins("Bitcoin", "BTC", coins_arr[0])
+    self.add_coins("Ethereum", "ETH", coins_arr[1])
+    self.add_coins("Litecoin", "LTC", coins_arr[2])
+    self.add_coins("XRP", "XRP", coins_arr[3])
+    self.add_coins("EOS", "EOS", coins_arr[4])
+    # Return the array of prices
+    coins_arr
   end
 
-  def self.populate_coins_BTC
-    coins = []
-
-    price_ETH = get_price_data_from_API("ETH", "BTC")
-    if price_ETH.length > 0
-      sum = price_ETH.inject :+
-      average_ETH = sum / price_ETH.length
-    end
-    coins << average_ETH
-
-    price_LTC = get_price_data_from_API("LTC", "BTC")
-    if price_LTC.length > 0
-      sum = price_LTC.inject :+
-      average_LTC = sum / price_LTC.length
-    end
-    coins << average_LTC
-
-    price_XRP = get_price_data_from_API("XRP", "BTC")
-    if price_XRP.length > 0
-      sum = price_XRP.inject :+
-      average_XRP = sum / price_XRP.length
-    end
-    coins << average_XRP
-
-    price_EOS = get_price_data_from_API("EOS", "BTC")
-    if price_EOS.length > 0
-      sum = price_EOS.inject :+
-      average_EOS = sum / price_EOS.length
-    end
-    coins << average_EOS
-
-    coins
-  end
-
-  def self.populate_coins_ETH
-    coins = []
-
-    price_ETH = get_price_data_from_API("BTC", "ETH")
-    if price_ETH.length > 0
-      sum = price_ETH.inject :+
-      average_ETH = sum / price_ETH.length
-    end
-    coins << average_ETH
-
-    price_LTC = get_price_data_from_API("LTC", "ETH")
-    if price_LTC.length > 0
-      sum = price_LTC.inject :+
-      average_LTC = sum / price_LTC.length
-    end
-    coins << average_LTC
-
-    price_XRP = get_price_data_from_API("XRP", "ETH")
-    if price_XRP.length > 0
-      sum = price_XRP.inject :+
-      average_XRP = sum / price_XRP.length
-    end
-    coins << average_XRP
-
-    price_EOS = get_price_data_from_API("EOS", "ETH")
-    if price_EOS.length > 0
-      sum = price_EOS.inject :+
-      average_EOS = sum / price_EOS.length
-    end
-    coins << average_EOS
-
-    coins
-  end
 
 
 end
