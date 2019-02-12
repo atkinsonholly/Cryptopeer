@@ -37,7 +37,7 @@ class Coin < ApplicationRecord
     average_price
   end
 
-  def self.populate_coins(currency) # use currency symbol eg "USD"
+  def self.populate_coins(currency) # use currency symbol string eg "USD"
     Coin.destroy_all
     coins_arr = []
     coin_symbols = ["BTC", "ETH", "LTC", "XRP", "EOS"]
@@ -56,6 +56,19 @@ class Coin < ApplicationRecord
     coins_arr
   end
 
+  def self.find_coin(symbol)
+    coin = Coin.find_by symbol: symbol
+  end
 
+  def self.update_coins(currency) # use currency symbol eg "USD"
+    coin_symbols = ["BTC", "ETH", "LTC", "XRP", "EOS"]
+    # Get API data for each coin_symbol in given currency
+    coin_symbols.map do |symbol|
+      price = self.get_price_data_from_API(symbol, currency, currency)
+      coin_price = self.average_array(price)
+      coin = self.find_coin(symbol)
+      coin.update(:price => coin_price)
+    end
+  end
 
 end
