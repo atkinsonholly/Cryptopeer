@@ -3,11 +3,13 @@ Rails.application.routes.draw do
   namespace :api do
     namespace :v1 do
       resources :users
+      post '/login', to: 'auth#login'
+      post '/signup', to: 'auth#signup'
+      get '/profile', to: 'users#profile'
+
       resources :user_coins
       resources :coins
       resources :transactions
     end
   end
-
-  
 end

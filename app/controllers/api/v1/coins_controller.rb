@@ -11,8 +11,8 @@ class Api::V1::CoinsController < ApplicationController
   end
 
   def create
-    @coin = Coin.new(name: params[:name], symbol: params[:symbol], price: params[:price])
-    if @coin.save
+    @coin = Coin.create!(name: params[:name], symbol: params[:symbol], price: params[:price])
+    if @coin.valid?
       render json: @coin
     else
       render json: {error: "Unable to create coin"}, status: 400
