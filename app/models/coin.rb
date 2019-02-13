@@ -67,6 +67,7 @@ class Coin < ApplicationRecord
       price = self.get_price_data_from_API(symbol, currency, currency)
       coin_price = self.average_array(price)
       coin = self.find_coin(symbol)
+      #Update just the price attribute for each existing Coin
       coin.update(:price => coin_price)
     end
   end
