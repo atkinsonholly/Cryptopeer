@@ -60,14 +60,14 @@ class Coin < ApplicationRecord
     coin = Coin.find_by symbol: symbol
   end
 
-  def self.update_coins(currency) # use currency symbol eg "USD"
+  def self.update_coins(currency) # use currency symbol string eg "USD"
     coin_symbols = ["BTC", "ETH", "LTC", "XRP", "EOS"]
     # Get API data for each coin_symbol in given currency
     coin_symbols.map do |symbol|
       price = self.get_price_data_from_API(symbol, currency, currency)
       coin_price = self.average_array(price)
       coin = self.find_coin(symbol)
-      #Update just the price attribute for each existing Coin
+      # Update just the price attribute for each existing Coin
       coin.update(:price => coin_price)
     end
   end
