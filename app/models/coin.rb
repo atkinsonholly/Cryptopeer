@@ -61,7 +61,7 @@ class Coin < ApplicationRecord
   end
 
   def self.update_coins(currency) # use currency symbol string eg "USD"
-    coin_symbols = ["BTC", "ETH", "LTC", "XRP", "EOS"]
+    coin_symbols = Coin.pluck(:symbol)
     # Get API data for each coin_symbol in given currency
     coin_symbols.map do |symbol|
       price = self.get_price_data_from_API(symbol, currency, currency)

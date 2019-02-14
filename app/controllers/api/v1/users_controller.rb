@@ -7,7 +7,6 @@ class Api::V1::UsersController < ApplicationController
   end
 
   def profile
-    # find user from the token from the browser
     @user = current_user
     render json: @user
   end

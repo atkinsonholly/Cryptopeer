@@ -1,5 +1,6 @@
 class Api::V1::CoinsController < ApplicationController
-
+  skip_before_action :authorized, only: [:update_prices]
+  
   def index
     @coins = Coin.all
     render json: @coins
@@ -19,4 +20,9 @@ class Api::V1::CoinsController < ApplicationController
     end
   end
 
+  def update_prices
+    Coin.update_coins("USD")
+    @coins = Coin.all
+    render json: @coins
+  end
 end
