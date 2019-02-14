@@ -13,8 +13,8 @@ UserCoin.destroy_all
 coin1 = Coin.create!(name: "Bitcoin", symbol: "BTC", price: 0)
 coin2 = Coin.create!(name: "Ethereum", symbol: "ETH", price: 0)
 coin3 = Coin.create!(name: "Litecoin", symbol: "LTC", price: 0)
-coin3 = Coin.create!(name: "XRP", symbol: "XRP", price: 0)
-coin3 = Coin.create!(name: "EOS", symbol: "EOS", price: 0)
+coin4 = Coin.create!(name: "XRP", symbol: "XRP", price: 0)
+coin5 = Coin.create!(name: "EOS", symbol: "EOS", price: 0)
 
 jack = User.create!(username: "jack123", email: "jack@gmail.com", password: "123", first_name: "Jack", last_name: "Ling", profile_pic_url: "")
 holly = User.create!(username: "holly123", email: "holly@gmail.com", password: "123", first_name: "Holly", last_name: "Atkinson", profile_pic_url: "")
