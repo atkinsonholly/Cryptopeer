@@ -11,8 +11,7 @@ class Api::V1::TransactionsController < ApplicationController
   end
 
   def create
-    
-    # byebug
+
     user1CurrencySymbol = Coin.find(params[:trading_state][:user1CurrencyId]).symbol
     user2CurrencySymbol = Coin.find(params[:trading_state][:user2CurrencyId]).symbol
     @transaction = Transaction.create!(user_one_id: params[:trading_state][:user1Id],
@@ -31,16 +30,16 @@ class Api::V1::TransactionsController < ApplicationController
       @user1coindecrease = @user1.user_coins.find{|coin| coin.coin_id == params[:trading_state][:user1CurrencyId].to_i}
       @user1coindecreasequantity = @user1coindecrease.quantity - params[:trading_state][:user1Amount].to_f
       @user1coindecrease.update(quantity: @user1coindecreasequantity)
-      
+
       @user1coinincrease = @user1.user_coins.find{|coin| coin.coin_id == params[:trading_state][:user2CurrencyId].to_i}
       @user1coinincreasequantity = @user1coinincrease.quantity + params[:trading_state][:user2Amount].to_f
       @user1coinincrease.update(quantity: @user1coinincreasequantity)
-      
-      
+
+
       @user2coindecrease = @user2.user_coins.find{|coin| coin.coin_id == params[:trading_state][:user2CurrencyId].to_i}
       @user2coindecreasequantity = @user2coindecrease.quantity - params[:trading_state][:user2Amount].to_f
       @user2coindecrease.update(quantity: @user2coindecreasequantity)
-      
+
       @user2coinincrease = @user2.user_coins.find{|coin| coin.coin_id == params[:trading_state][:user1CurrencyId].to_i}
       @user2coinincreasequantity = @user2coinincrease.quantity + params[:trading_state][:user1Amount].to_f
       @user2coinincrease.update(quantity: @user2coinincreasequantity)
@@ -50,9 +49,5 @@ class Api::V1::TransactionsController < ApplicationController
       render json: {error: "Unable to create transaction"}, status: 400
     end
   end
-
-  # def trading_params
-    # params.require(:trading_state).
-  # end
 
 end
