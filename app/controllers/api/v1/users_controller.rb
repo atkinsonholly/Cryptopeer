@@ -14,8 +14,8 @@ class Api::V1::UsersController < ApplicationController
   def create
     @user = User.create!(user_params)
     if @user.valid?
-      @token = encode_token(user_id: @user.id)
-      render json: @user
+      @encoded_token = encode_token(user_id: @user.id)
+      render json: { token: @encoded_token}
     else
       render json: {error: "Unable to create user"}, status: 400
     end
